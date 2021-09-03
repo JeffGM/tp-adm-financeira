@@ -1,0 +1,438 @@
+<html>
+    <head>
+        <script type = "text/javascript" src="investmentFunctions.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.11.2/jquery.mask.min.js" integrity="sha512-Y/GIYsd+LaQm6bGysIClyez2HGCIN1yrs94wUrHoRAD5RSURkqqVQEU6mM51O90hqS80ABFTGtiDpSXd2O05nw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <title>Simulador de Investimentos</title>
+    </head>
+    <body>
+        <h1 id="main-title">Simulador de Investimentos</h1>
+
+        <div class="input-main-wrapper">
+            <h2>Preencha os dados abaixo</h2>
+
+            <div class="input-super-wrapper">
+                <div class="input-container">
+                    <ul>
+                        <li>
+                            <label class="input-label" for="amount">Valor da aplicação</label>
+                            <input  value="10000" onkeypress="return isNumberKey(event)" id="amount" class="input-field"></input>
+                        </li>
+                        <li>
+                            <label class="input-label" for="monthly-increase">Aporte Mensal</label>
+                            <input onkeypress="return isNumberKey(event)" value="500" id="monthly-increase" class="input-field"></input>
+                        </li>
+                        <li>
+                            <label class="input-label" for="time">Período em meses</label>
+                            <input onkeypress="return isNumberKey(event)" value="60" id="time" class="input-field"></input>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="input-container">
+                    <ul>
+                        <li>
+                            <label class="input-label" for="selic-tax">Taxa SELIC</label>
+                            <input onkeypress="return isNumberKey(event)" value="7.14" id="selic-tax" class="input-field"></input>
+                        </li>
+                        <li>
+                            <label class="input-label" for="di-tax">Taxa DI</label>
+                            <input onkeypress="return isNumberKey(event)" value="5.15" id="di-tax" class="input-field"></input>
+                        </li>
+                        <li>
+                            <label class="input-label" for="ipca-index">IPCA</label>
+                            <input onkeypress="return isNumberKey(event)" value="8.86" id="ipca-index" class="input-field"></input>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="input-container">
+                    <ul>
+                        <li>
+                            <label class="input-label" for="cdb-lci" style="margin-left:50px">CDB/LC</label>
+                            <input onkeypress="return isNumberKey(event)" value="127" id="cdb-lci" class="input-field" style="float:none !important"></input>
+                            (% do DI)
+                        </li>
+                        <li>
+                            <label class="input-label" for="lci-lca" style="margin-left:50px">LCI/LCA</label>
+                            <input onkeypress="return isNumberKey(event)" value="98" id="lci-lca" class="input-field" style="float:none !important"></input> 
+                            (% do DI)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="investment-types">
+                <div><span id="moderate-investment"></span>Investimento Moderado</div>
+                <div><span id="conservative-investment"></span>Investimento Conservador</div>
+            </div>
+        </div>
+
+        <div class="investment-results">
+            <div class="investment-cards-wrapper">
+                <div id="i1" class="investment-card moderate-in-card">
+                    <p class="in-title">Tesouro IPCA</p>
+                    <ul>
+                        <li>
+                            <div class="in-inner-label">Valor Bruto</div>
+                            <div class="in-inner-value"><span id="brute-value">R$ 1000,00</span></div></li>
+                        <li>
+                            <div class="in-inner-label">Imposto de Renda</div>
+                            <div class="in-inner-value"><span id="ir-tax">R$ 1000,00</span></div></li>
+                        <li>
+                            <div class="in-inner-label">Valor Líquido</div>
+                            <div class="in-inner-value"><span id="liquid-value">R$ 1000,00</span></div></li>
+                    </ul>
+                </div>
+
+                <div id="i2" class="investment-card conservative-in-card">
+                    <p  class="in-title">CDB</p>
+                    <ul>
+                        <li>
+                            <div class="in-inner-label">Valor Bruto</div>
+                            <div class="in-inner-value"><span id="brute-value">R$ 1000,00</span></div></li>
+                        <li>
+                            <div class="in-inner-label">Imposto de Renda</div>
+                            <div class="in-inner-value"><span id="ir-tax">R$ 1000,00</span></div></li>
+                        <li>
+                            <div class="in-inner-label">Valor Líquido</div>
+                            <div class="in-inner-value"><span id="liquid-value">R$ 1000,00</span></div></li>
+                    </ul>
+                </div>
+
+                <div id="i3" class="investment-card conservative-in-card">
+                    <p class="in-title">LCI</p>
+                    <ul>
+                        <li>
+                            <div class="in-inner-label">Valor Bruto</div>
+                            <div class="in-inner-value"><span id="brute-value">R$ 1000,00</span></div></li>
+                        <li>
+                            <div class="in-inner-label">Imposto de Renda</div>
+                            <div class="in-inner-value"><span id="ir-tax">R$ 1000,00</span></div></li>
+                        <li>
+                            <div class="in-inner-label">Valor Líquido</div>
+                            <div class="in-inner-value"><span id="liquid-value">R$ 1000,00</span></div></li>
+                    </ul>
+                </div>
+
+                <div id="i4" class="investment-card conservative-in-card">
+                    <p class="in-title">Tesouro SELIC</p>
+                    <ul>
+                        <li>
+                            <div class="in-inner-label">Valor Bruto</div>
+                            <div class="in-inner-value"><span id="brute-value">R$ 1000,00</span></div></li>
+                        <li>
+                            <div class="in-inner-label">Imposto de Renda</div>
+                            <div class="in-inner-value"><span id="ir-tax">R$ 1000,00</span></div></li>
+                        <li>
+                            <div class="in-inner-label">Valor Líquido</div>
+                            <div class="in-inner-value"><span id="liquid-value">R$ 1000,00</span></div></li>
+                    </ul>
+                </div>
+
+                <div id="i5" class="investment-card conservative-in-card">
+                    <p class="in-title">Poupança</p>
+                    <ul>
+                        <li>
+                            <div class="in-inner-label">Valor Bruto</div>
+                            <div class="in-inner-value"><span id="brute-value">R$ 1000,00</span></div></li>
+                        <li>
+                            <div class="in-inner-label">Imposto de Renda</div>
+                            <div class="in-inner-value"><span id="ir-tax">R$ 1000,00</span></div></li>
+                        <li>
+                            <div class="in-inner-label">Valor Líquido</div>
+                            <div class="in-inner-value"><span id="liquid-value">R$ 1000,00</span></div></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+    </body>
+</html>
+
+<script>
+
+
+    const cardDisplacementInPixels = 345;
+    const cardFirstPosition = 0;
+    let currentCardOrder = {
+        "tipca" : {"element": "i1", "position" : 1, "height": 1, "liquidValue": 0},
+        "cdb" : {"element": "i2","position" : 2, "height": 1, "liquidValue": 0},
+        "lci" : {"element": "i3","position" : 3, "height": 1, "liquidValue": 0},
+        "selic" : {"element": "i4","position" : 4, "height": 1, "liquidValue": 0},
+        "poupanca" : {"element": "i5","position" : 5, "height": 1, "liquidValue": 0}
+    }
+
+
+
+    function getDisplacementByPosition(position) {
+        return cardFirstPosition - cardDisplacementInPixels * (1 - position);
+    }
+
+    let changedPositionOrHeight = false;
+
+    function isNumberKey(evt)   {
+        var charCode = (evt.which) ? evt.which : evt.keyCode
+        if (charCode > 31 && (charCode != 46 &&(charCode < 48 || charCode > 57)))
+            return false;
+        return true;
+    }
+
+    $(document).ready(function() {
+        sortCards()
+        refreshVisualization()
+
+        document.getElementById('amount').addEventListener('keyup', refreshVisualization)
+        document.getElementById('monthly-increase').addEventListener('keyup',refreshVisualization)
+        document.getElementById('time').addEventListener('keyup',refreshVisualization)
+        document.getElementById('selic-tax').addEventListener('keyup',refreshVisualization)
+        document.getElementById('di-tax').addEventListener('keyup',refreshVisualization)
+        document.getElementById('ipca-index').addEventListener('keyup',refreshVisualization)
+        document.getElementById('cdb-lci').addEventListener('keyup',refreshVisualization)
+        document.getElementById('lci-lca').addEventListener('keyup',refreshVisualization)
+    });
+
+    function refreshVisualization() {
+        calculateAllInvestments()
+        calculateCardsOrderAndSort()
+    }
+
+    function sortCards() {
+        for( let key in currentCardOrder) {
+            let currentCardId = "#" + currentCardOrder[key]["element"];
+            $(currentCardId).delay(300).animate(
+            {
+                left: getDisplacementByPosition(currentCardOrder[key]["position"]).toString() + "px",
+                height: currentCardOrder[key]["height"] + "%"
+            });
+        }
+    }
+
+    function calculateCardsOrderAndSort() {
+        let cardsAsList = Object.keys(currentCardOrder).map(function(key) {
+            return [key, currentCardOrder[key]["liquidValue"]];
+        });
+
+        cardsAsList.sort(function(first, second) {
+            return second[1] - first[1];
+        });
+
+        let maxValue = cardsAsList[0][1];
+        
+        for(var i = 0; i < cardsAsList.length; i++) {
+            let currentInvestment = cardsAsList[i][0];
+            let currentValue = cardsAsList[i][1];
+            let newValue = (100 * (currentValue/maxValue)).toFixed(0);
+
+            if(!changedPositionOrHeight) {
+                if(currentCardOrder[currentInvestment]["position"] != i + 1)
+                    changedPositionOrHeight = true;
+
+                if(currentCardOrder[currentInvestment]["height"] != newValue)
+                    changedPositionOrHeight = true;
+            }
+
+            currentCardOrder[currentInvestment]["position"] = i + 1;
+            currentCardOrder[currentInvestment]["height"] = newValue
+        }
+
+        let cardsOrderAsList = Object.keys(currentCardOrder).map(function(key) {
+            let arrayCopy = currentCardOrder[key];
+            delete arrayCopy["liquidValue"];
+            return [key, arrayCopy];
+        });
+
+
+        if(changedPositionOrHeight) {
+            sortCards()
+            changedPositionOrHeight = false;
+        }
+    }
+
+    function calculateAllInvestments() {
+        let amount = $("#amount").val();            
+        let monthlyIncrease = $("#monthly-increase").val();         
+        let time = $("#time").val();         
+        let selicTax = $("#selic-tax").val();         
+        let diTax = $("#di-tax").val();          
+        let ipcaIndex = $("#ipca-index").val();
+        let cdbLci = $("#cdb-lci").val();
+        let lciLca = $("#lci-lca").val();
+        console.log(lciLca)
+        calcularPoupanca(amount, 0, selicTax, time, monthlyIncrease);
+        calcularCDB(amount, diTax, cdbLci, time, monthlyIncrease);
+        calcularIPCA(amount, ipcaIndex, time, monthlyIncrease);
+        calcularLCI(amount, diTax, lciLca, time, monthlyIncrease);
+        calcularTesouroSelic(amount, selicTax, time, monthlyIncrease);
+    }
+
+</script>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,500;0,800;0,900;1,300;1,500;1,700;1,800;1,900&display=swap');
+    html {
+        font-family: Poppins;
+        font-weight: 500;
+    }
+
+    #i1 {
+        /* left: 0px; */
+        /* left: 0px; */
+        right: 600px;
+    }
+
+    #i2 {
+        /* left: 310; */
+        right: 250px;
+    }
+
+    .input-main-wrapper {
+        background-color: #003566;
+        height: 35%;
+        padding-left: 10%;
+        padding-right: 10%;
+        padding-top: 1%;
+        color: white;
+        border-radius: 10px;
+        position: relative;
+    }
+
+    .input-main-wrapper h2 {
+        font-size: 30px;
+        font-weight: bold;
+        text-align: center;
+    }
+    
+    ul {
+        list-style-type: none;
+    }
+
+    .input-container {
+        width: -webkit-fill-available;
+        /* padding-right: 5%; */
+    }
+
+    .input-container li {
+        margin-bottom: 15px;
+    }
+    
+    input { 
+        text-align: right; 
+    }
+    .input-field {
+        float: right;
+        margin-left: 10px;
+        border-radius: 10px;
+        height: 25px;
+        border: 0px;
+        font-weight: bolder;
+        text-align: center;
+    }
+
+    .input-super-wrapper {
+        display: flex;
+        flex-direction: row;
+    }
+
+    #main-title {
+        text-align: center;
+    }
+
+    .investment-card  {
+        background-color: #FFC300;
+        width: 300px;
+        border-radius: 20px;
+        padding-top: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 10px;
+        margin-right: 15px;
+        position: absolute;
+        bottom: 0;
+        min-height: 40%;
+    }
+
+    .investment-card li {
+        border-radius: 20px;
+        /* width: 300px; */
+        display: flex;
+        flex-direction: row;
+        position: relative;
+    }
+
+    .in-title {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .investment-card ul {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .investment-card span {
+        float: right;
+        font-weight: 700 !important;
+    }
+
+    .investment-results {
+        /* float: left; */
+        height: w;
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        flex-direction: row;
+        width: -webkit-fill-available;
+        left: 0;
+        right: 0;
+        padding-left: 20px;
+        padding-right: 20px;
+        /* place-content: center; */
+    }
+
+    .investment-cards-wrapper {
+        position: relative;
+        height: 50vh;
+    }
+
+    .in-inner-label {
+        /* display: flex; */
+        /* flex-direction: row; */
+        width: 65%;
+    }
+
+    .in-inner-value {
+        /* display: flex; */
+        /* flex-direction: row; */
+        float: right;
+        width: fit-content;
+        /* position: absolute; */
+    }
+
+    #moderate-investment {height: 10px;width: 10px;background-color: #F18F01;border-radius: 50%;display: inline-block;margin-right: 10px;}
+
+    #conservative-investment {height: 10px;width: 10px;background-color: #99C24D;border-radius: 50%;display: inline-block;margin-right: 10px;}
+
+    .investment-types {
+        display: flex;
+        flex-direction: row;
+        text-align: center;
+        /* width: 100%; */
+        place-content: center;
+        position: absolute;
+        bottom: 20;
+        left: 35%;
+    }
+
+    .investment-types div {
+        margin-right: 100px;
+    }
+
+    .conservative-in-card {
+        background-color: #99C24D !important;
+    }
+
+    .moderate-in-card {
+        background-color: #F18F01 !important;
+    }
+</style>
